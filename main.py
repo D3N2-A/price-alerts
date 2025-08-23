@@ -1,24 +1,13 @@
-import asyncio
-import os
-from dotenv import load_dotenv
-import requests
 from bs4 import BeautifulSoup
-
-from db import Database
-from scrapper import scrape_products
+import requests
 
 
-async def main():
-    load_dotenv()
-
-    # Initialize database
-    db = Database(connection_string=os.getenv("POSTGRES_URL"))
-
-    # Get list of products from database
-    products = db.get_products()
-
-    await scrape_products(products)
+def main():
+    url = "https://www.nike.com/in/t/air-jordan-1-low-shoes-lFCSjp/553558-169"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    print(soup.find("div", {"id": "price-container"}))
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
