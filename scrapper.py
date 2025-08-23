@@ -50,8 +50,15 @@ class NikeScrapper(BaseScraper):
     def extract_availability(self, soup: BeautifulSoup) -> bool:
         return soup.find("span", {"data-testid": "sold-out-container"}) is None
 
-    def extract_currency(self) -> str:
-        return "INR"
+    def extract_currency(self, soup: BeautifulSoup) -> str:
+        price = soup.find("span", {"data-testid": "currentPrice-container"})
+        if price is not None:
+            price_text = price.text.strip()
+            for currency, symbols in currency_map.items():
+                if any(symbol in price_text for symbol in symbols):
+                    return currency
+        else:
+            return "INR"
 
     def extract_image_url(self, soup: BeautifulSoup) -> str:
         image = soup.find("img", {"data-testid": "HeroImg"})
