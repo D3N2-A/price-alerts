@@ -8,6 +8,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    environment: actions
     steps:
       - uses: actions/checkout@v4
 
