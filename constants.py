@@ -25,3 +25,41 @@ currency_map = {
     "KRW": ["₩", "KRW"],
     "CNY": ["¥", "CNY"],
 }
+
+
+ai_scrapper_task = """
+**AI Agent Task: Scrape the product information from the website**
+
+**Objective:**  
+Gather information on available product from the website: {url} and return information in structured format.  
+[IMPORTANT] Follow the key requirements and output format.
+---
+**Instructions:**
+1. Open the website {url} in the browser.
+2. Check the product title and price with currency.
+3. Check the product availability.
+4. Check the product image url.
+5. Check for additional information like offer, sold out text, etc.
+6. Return the product information in structured format.
+
+**Output Format:**
+Return ONLY a valid JSON object with the following structure:
+{{
+    "title": "<Product Title>",
+    "price": "<Product Price>",
+    "currency": "<Product Currency>",
+    "availability": "<Product Availability>",
+    "image_url": "<Product Image URL>",
+    "additional_data": {{
+        "offer": "<Product Offer>",
+        "sold_out_text": "<Product Sold Out Text>"
+    }}
+}}
+
+**IMPORTANT KEY REQUIREMENTS:**
+- Return ONLY the JSON object, no other text or formatting
+- Ensure all values are strings except 'availability' which should be a boolean
+- Do not include ```json or ``` markers in the response
+- Make sure additional_data is dictionary, if not return empty dictionary
+- Do not include any explanatory text or comments
+"""
