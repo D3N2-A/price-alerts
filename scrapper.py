@@ -11,7 +11,7 @@ from constants import currency_map, ai_scrapper_task
 
 
 def parse_price(price_str: str) -> float:
-    replace_str = ["Price", " ", ","]
+    replace_str = ["Price", " ", ",", ":", "MRP"]
     for _, symbols in currency_map.items():
         replace_str.extend(symbols)
     for replace_str in replace_str:
@@ -220,7 +220,6 @@ async def scrape_product(url: str) -> PriceHistory:
         timestamp=datetime.now(timezone.utc),
         product_url=url,
         availability=availability,
-        product=Product(url=url),
         additional_data=additional_data,
     )
 

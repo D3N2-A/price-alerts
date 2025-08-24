@@ -35,8 +35,8 @@ class PriceHistory(Base, DictMixin):
     main_image_url = Column(String)
     availability = Column(Boolean, nullable=True)
     timestamp = Column(DateTime, nullable=False)
-    product = relationship("Product", back_populates="prices")
     additional_data = Column(JSON, nullable=True, default={})
+    product = relationship("Product", back_populates="prices")
 
 
 class AIScrapperResult(BaseModel):

@@ -40,10 +40,10 @@ class Database:
                 .filter(Product.is_deleted.isnot(True))
                 .all()
             )
-            session.close()
             return [product.as_dict() for product in products]
         except Exception as e:
             print(f"\nFailed to get products\n: {e}")
+            return []
         finally:
             session.close()
 
@@ -56,5 +56,6 @@ class Database:
         except Exception as e:
             print(f"\nFailed to store price history\n: {e}")
             session.rollback()
+            raise e
         finally:
             session.close()
