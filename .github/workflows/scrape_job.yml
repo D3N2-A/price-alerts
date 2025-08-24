@@ -23,4 +23,5 @@ jobs:
       - name: Run Scraper
         env:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: uv run main.py
