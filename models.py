@@ -1,6 +1,7 @@
+import uuid
 from sqlalchemy import JSON, Boolean, Column, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
-
+from pydantic import BaseModel
 
 Base = declarative_base()
 
@@ -26,7 +27,7 @@ class Product(Base, DictMixin):
 
 class PriceHistory(Base, DictMixin):
     __tablename__ = "price_history"
-    id = Column(String, primary_key=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     product_url = Column(String, ForeignKey("products.url"))
     name = Column(String, nullable=False)
     price = Column(Float, nullable=False)
@@ -36,3 +37,12 @@ class PriceHistory(Base, DictMixin):
     timestamp = Column(DateTime, nullable=False)
     product = relationship("Product", back_populates="prices")
     additional_data = Column(JSON, nullable=True, default={})
+
+
+class AIScrapperResult(BaseModel):
+    title: str
+    price: str
+    currency: str
+    image_url: str
+    availability: bool
+    additional_data: dict

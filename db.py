@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.serializer import dumps, loads
 
-from models import Base, Product
+from models import Base, PriceHistory, Product
 
 
 class Database:
@@ -44,5 +44,17 @@ class Database:
             return [product.as_dict() for product in products]
         except Exception as e:
             print(f"\nFailed to get products\n: {e}")
+        finally:
+            session.close()
+
+    def store_price_history(self, price_history: PriceHistory):
+        session = self.Session()
+
+        try:
+            session.add(price_history)
+            session.commit()
+        except Exception as e:
+            print(f"\nFailed to store price history\n: {e}")
+            session.rollback()
         finally:
             session.close()

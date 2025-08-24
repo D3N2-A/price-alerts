@@ -6,8 +6,10 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "beautifulsoup4>=4.13.4",
+    "browser-use>=0.6.1",
     "curl-cffi>=0.13.0",
     "dotenv>=0.9.9",
+    "langchain-openai>=0.3.29",
     "psycopg2>=2.9.10",
     "requests>=2.32.5",
     "sqlalchemy>=2.0.43",
