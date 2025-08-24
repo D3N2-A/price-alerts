@@ -112,7 +112,27 @@ class AdidasScrapper(BaseScraper):
             raise Exception("Price not found")
 
     def extract_availability(self, soup: BeautifulSoup) -> bool:
-        return soup.find("section", {"data-testid": "sold-out-signup"}) is None
+        sold_out_signup = soup.find("section", {"data-testid": "sold-out-signup"})
+        script = soup.find("script", {"id": "__NEXT_DATA__"})
+        if script is not None:
+            script_text = script.text.strip()
+            sold_out_strings = [
+                "Catch it next time",
+                "product.soldout.title",
+                "product.soldout.description",
+            ]
+            found_sold_out = None
+            for s in sold_out_strings:
+                if s in script_text:
+                    found_sold_out = s
+                    break
+            if found_sold_out is not None:
+                return False
+
+        if sold_out_signup is not None:
+            return False
+        else:
+            return True
 
     def extract_currency(self, soup: BeautifulSoup) -> str:
         price = soup.find("div", {"data-testid": "main-price"})
